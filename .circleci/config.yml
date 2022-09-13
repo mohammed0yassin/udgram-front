@@ -84,8 +84,14 @@ workflows:
     jobs:
       - build
       - test-app
+        requires:
+          build
       - lint
+        requires:
+          build      
       # - test-e2e
+        # requires:
+        #   build      
       - deploy:
           context:
             Udgram
