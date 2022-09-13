@@ -9,7 +9,7 @@ export class AppPage {
     return browser.getTitle();
   }
 
-  getPageOneTitleText() {
-    return element(by.tagName('app-home')).element(by.deepCss('ion-title')).getText();
+  getPageOneCreatePostText() {
+    return element(by.tagName('app-home')).getText();
   }
 }
