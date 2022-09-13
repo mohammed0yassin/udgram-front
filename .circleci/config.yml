@@ -1,0 +1,47 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.0.2
+  aws-cli: circleci/aws-cli@3.1.1
+jobs:
+  build:
+    docker:
+      - image: "cimg/node:14.15"
+    steps:
+      - node/install:
+          node-version: '14.15'         
+      - checkout
+      - run:
+          name: Install Front-End Dependencies
+          command: |
+            npm npm install -f --legacy-peer-deps
+            npm install @angular/http --legacy-peer-deps
+      - run:
+          name: Front-End Lint
+          command: |
+            npm run lint
+      - run:
+          name: Front-End Build
+          command: |
+            npm run build
+  deploy:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - node/install:
+          node-version: '14.15' 
+      - aws-cli/setup
+      - checkout
+      - run:
+          name: Deploy App
+          command: |
+            npm run deploy
+            
+workflows:
+  udagram-frontend:
+    jobs:
+      - build
+      - deploy:
+          context:
+            Udgram
+          requires:
+            - build
