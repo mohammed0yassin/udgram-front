@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "modifyLBURL": "cd src/environments/ && sed -i 's,LBURL,$WEB_SERVER_DNS,g' environment.ts",
+    "modifyLBURL": "cd src/environments/ && sed -i \"s,LBURL,$WEB_SERVER_DNS,g\" environment.ts",
     "build": "npm run modifyLBURL && ng build",
     "deploy": "npm install -f && npm run build && chmod +x bin/deploy.sh && bin/deploy.sh",
     "test": "ng test --watch=false",
