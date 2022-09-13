@@ -35,7 +35,18 @@ jobs:
           name: Deploy App
           command: |
             npm run deploy
-            
+
+  test-backend-connection:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - run:
+          name: Test App Connection To Backend
+          command: |
+            STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" $WEB_SERVER_DNS)
+            (( $STATUS_CODE=="202" )); echo $?
+
+
 workflows:
   udagram-frontend:
     jobs:
@@ -45,3 +56,6 @@ workflows:
             Udgram
           requires:
             - build
+      - test-backend-connection:
+          requires:
+            - deploy
