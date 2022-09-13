@@ -22,10 +22,12 @@ jobs:
             npm run build
   test-app:
     docker:
-      - image: "cimg/base:stable"
+      - image: "cimg/node:14.15-browsers"
     steps:
       - node/install:
           node-version: '14.15' 
+      - browser-tools/install-browser-tools:
+          chrome-version: 101.0.4951.54
       - checkout
       - run:
           name: Install Front-End Dependencies
