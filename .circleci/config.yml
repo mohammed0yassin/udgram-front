@@ -44,7 +44,7 @@ jobs:
           name: Test App Connection To Backend
           command: |
             STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" $WEB_SERVER_DNS)
-            (( $STATUS_CODE=="202" )); echo $?
+            (( $STATUS_CODE=="200" )); echo $?
 
 
 workflows:
