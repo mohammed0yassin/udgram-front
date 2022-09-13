@@ -23,18 +23,39 @@ jobs:
           name: Front-End Build
           command: |
             npm run build
-  deploy:
+  test-app:
     docker:
       - image: "cimg/base:stable"
     steps:
       - node/install:
           node-version: '14.15' 
-      - aws-cli/setup
       - checkout
       - run:
-          name: Deploy App
+          name: Test App
           command: |
-            npm run deploy
+            npm run test
+  lint:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - node/install:
+          node-version: '14.15' 
+      - checkout
+      - run:
+          name: Lint App Code
+          command: |
+            npm run lint
+  # test-e2e:
+  #   docker:
+  #     - image: "cimg/base:stable"
+  #   steps:
+  #     - node/install:
+  #         node-version: '14.15' 
+  #     - checkout
+  #     - run:
+  #         name: End to End Test
+  #         command: |
+  #           npm run e2e
 
   test-backend-connection:
     docker:
@@ -51,11 +72,16 @@ workflows:
   udagram-frontend:
     jobs:
       - build
+      - test-app
+      - lint
+      # - test-e2e
       - deploy:
           context:
             Udgram
           requires:
-            - build
+            - test-app
+            - lint
+            - test-e2e
       - test-backend-connection:
           requires:
             - deploy
