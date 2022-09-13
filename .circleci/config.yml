@@ -58,7 +58,7 @@ jobs:
     steps:
       - checkout
       - browser-tools/install-browser-tools:
-          chrome-version: 100.0.4896.20
+          chrome-version: 101.0.4951.54
       - browser-tools/install-chromedriver
       - run:
           name: Install Front-End Dependencies
