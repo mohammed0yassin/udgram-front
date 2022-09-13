@@ -56,7 +56,18 @@ jobs:
   #         name: End to End Test
   #         command: |
   #           npm run e2e
-
+  deploy:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - node/install:
+          node-version: '14.15' 
+      - aws-cli/setup
+      - checkout
+      - run:
+          name: Deploy App
+          command: |
+            npm run deploy
   test-backend-connection:
     docker:
       - image: "cimg/base:stable"
