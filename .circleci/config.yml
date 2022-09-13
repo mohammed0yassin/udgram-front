@@ -27,7 +27,7 @@ jobs:
       - node/install:
           node-version: '14.15' 
       - browser-tools/install-browser-tools:
-          chrome-version: 101.0.4951.54
+          chrome-version: 100.0.4896.127
       - checkout
       - run:
           name: Install Front-End Dependencies
@@ -60,7 +60,7 @@ jobs:
     steps:
       - checkout
       - browser-tools/install-browser-tools:
-          chrome-version: 101.0.4951.54
+          chrome-version: 100.0.4896.127
       - browser-tools/install-chromedriver
       - run:
           name: Install Front-End Dependencies
