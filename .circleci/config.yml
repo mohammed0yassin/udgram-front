@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
   aws-cli: circleci/aws-cli@3.1.1
+  browser-tools: circleci/browser-tools@1.4.0
 jobs:
   build:
     docker:
@@ -45,17 +46,19 @@ jobs:
           name: Lint App Code
           command: |
             npm run lint
-  # test-e2e:
-  #   docker:
-  #     - image: "cimg/base:stable"
-  #   steps:
-  #     - node/install:
-  #         node-version: '14.15' 
-  #     - checkout
-  #     - run:
-  #         name: End to End Test
-  #         command: |
-  #           npm run e2e
+  test-e2e:
+    docker:
+      - image: "cimg/node:14.15-browsers"
+    executor: browser-tools/default
+    steps:
+      - checkout
+      - browser-tools/install-browser-tools:
+          chrome-version: 100.0.4896.13
+      - browser-tools/install-chromedriver
+      - run:
+          name: End to End Test
+          command: |
+            npm run e2e
   deploy:
     docker:
       - image: "cimg/base:stable"
@@ -83,22 +86,22 @@ workflows:
   udagram-frontend:
     jobs:
       - build
-      - test-app
-        requires:
-          - build
-      - lint
-        requires:
-          - build      
-      # - test-e2e
-        # requires:
-        #   - build      
+      - test-app:
+          requires:
+            - build
+      - lint:
+          requires:
+            - build      
+      - test-e2e:
+          requires:
+            - build      
       - deploy:
           context:
             Udgram
           requires:
             - test-app
             - lint
-            # - test-e2e
+            - test-e2e
       - test-backend-connection:
           requires:
             - deploy
