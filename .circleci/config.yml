@@ -92,7 +92,7 @@ workflows:
           requires:
             - test-app
             - lint
-            - test-e2e
+            # - test-e2e
       - test-backend-connection:
           requires:
             - deploy
