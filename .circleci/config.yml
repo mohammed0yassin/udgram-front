@@ -85,13 +85,13 @@ workflows:
       - build
       - test-app
         requires:
-          build
+          - build
       - lint
         requires:
-          build      
+          - build      
       # - test-e2e
         # requires:
-        #   build      
+        #   - build      
       - deploy:
           context:
             Udgram
